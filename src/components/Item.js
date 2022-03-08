@@ -7,10 +7,11 @@ export default function Item({ data, uncollapsed, onUncollapse }) {
 		NEW_EDIT = 2,
 		NEW_COLLAPSED = 3;
 
-	const [state, setState] = useState(COLLAPSED);
+	const [state, setState] = useState(
+		data.id === undefined ? NEW_COLLAPSED : COLLAPSED
+	);
 
 	const onClickEdit = () => {
-		console.log('Show edit form');
 		setState(EDIT);
 		onUncollapse(data);
 	};
@@ -25,8 +26,8 @@ export default function Item({ data, uncollapsed, onUncollapse }) {
 	};
 
 	const onClickNew = () => {
-		console.log('Show edit new form');
 		setState(NEW_EDIT);
+		onUncollapse(data);
 	};
 
 	const onClickCollapse = () => {
@@ -43,10 +44,11 @@ export default function Item({ data, uncollapsed, onUncollapse }) {
 	};
 
 	const renderForm = () => {
+		if (data.id === undefined && uncollapsed.id === undefined) {
+			return state === NEW_EDIT ? <RawMaterialsForm /> : null;
+		}
 		if (uncollapsed.id === data.id) {
-			return state === EDIT || state === NEW_EDIT ? (
-				<RawMaterialsForm />
-			) : null;
+			return state === EDIT ? <RawMaterialsForm /> : null;
 		} else {
 			onClickCollapse();
 		}
@@ -56,13 +58,18 @@ export default function Item({ data, uncollapsed, onUncollapse }) {
 		<div
 			style={{ borderBottom: '1px solid lightgrey', position: 'relative' }}
 		>
-			<span style={{ color: 'grey' }}>
-				{`${data.description}`}
-				{` id:${data.id}`}
-				{` price:${data.price}`}
-				{` unit:${data.unit}`}
-				{` amount:${data.amount}`}
-			</span>
+			{state === EDIT || state === COLLAPSED ? (
+				<span style={{ color: 'grey' }}>
+					{`${data.description}`}
+					{` id:${data.id}`}
+					{` price:${data.price}`}
+					{` unit:${data.unit}`}
+					{` amount:${data.amount}`}
+				</span>
+			) : (
+				<span style={{ color: 'grey' }}>-</span>
+			)}
+
 			<span style={{ position: 'absolute', right: '0' }}>
 				{state === EDIT || state === COLLAPSED ? (
 					<button onClick={onClickDel}>Del</button>

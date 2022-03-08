@@ -53,6 +53,13 @@ export default function List() {
 					/>
 				);
 			})}
+			{
+				<Item
+					data={{}}
+					onUncollapse={setUncollapsedItem}
+					uncollapsed={uncollapsedItem}
+				/>
+			}
 		</div>
 	);
 }
