@@ -1,26 +1,29 @@
 import React from 'react';
 
-export default function RawMaterialsForm() {
+function RawMaterialsForm(props) {
+	const { description, price, amount, unit } = props.rawMaterial;
 	return (
 		<div>
 			<form>
 				<div>
 					<label> Descripcion</label>
-					<input></input>
+					<input defaultValue={description}></input>
 				</div>
 				<div>
 					<label> Price</label>
-					<input></input>
-				</div>
-				<div>
-					<label> Unit</label>
-					<input></input>
+					<input defaultValue={price}></input>
 				</div>
 				<div>
 					<label> Amount</label>
-					<input></input>
+					<input defaultValue={amount}></input>
+				</div>
+				<div>
+					<label> Unit</label>
+					<input defaultValue={unit}></input>
 				</div>
 			</form>
 		</div>
 	);
 }
+
+export default RawMaterialsForm;
