@@ -9,7 +9,7 @@ import {
 } from '../actions/rawMaterials';
 import RawMaterialsForm from './RawMaterialsForm';
 
-function RawMaterialsItem({ onEdit, editing, rawMaterial }) {
+function RawMaterialsItem({ onEdit, editing, rawMaterial, ...props }) {
 	const { id, description, price, amount, unit } = rawMaterial;
 	const COLLAPSED = id !== editing.id;
 
@@ -21,8 +21,9 @@ function RawMaterialsItem({ onEdit, editing, rawMaterial }) {
 		console.log('Dispatch action Delete');
 	};
 
-	const onSubmit = () => {
+	const onSubmit = (formValues) => {
 		console.log('Dispatch action Save');
+		props.rawCreate(formValues);
 		onEdit({});
 	};
 
@@ -92,4 +93,4 @@ const mapStateToProps = (state, ownProps) => {
 	};
 };
 
-export default connect(mapStateToProps, {})(RawMaterialsItem);
+export default connect(mapStateToProps, { rawCreate })(RawMaterialsItem);

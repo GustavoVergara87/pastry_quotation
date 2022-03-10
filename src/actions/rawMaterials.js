@@ -1,7 +1,12 @@
 import * as type from './types';
+import Localbase from 'localbase';
+let db = new Localbase('db');
 
 export const rawCreate = (formValues) => {
-	// post new raw
+	// simple id auto increment
+	formValues.id = Date.now();
+	// post new rawMaterial
+	db.collection('rawMaterials').add(formValues);
 	// dispatch the action loading that raw into redux
 	return { type: type.RAW_CREATE, payload: formValues };
 };
