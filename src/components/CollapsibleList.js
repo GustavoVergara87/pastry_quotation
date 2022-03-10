@@ -9,13 +9,13 @@ export default function List({ data, Item }) {
 				return (
 					<Item
 						key={datum.id}
-						onEdit={setEditingItem}
+						setEditingItem={setEditingItem}
 						editing={editingItem}
 						id={datum.id}
 					/>
 				);
 			})}
-			{<Item onEdit={setEditingItem} editing={editingItem} id={''} />}
+			{<Item setEditingItem={setEditingItem} editing={editingItem} id={''} />}
 		</div>
 	);
 }

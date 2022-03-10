@@ -1,25 +1,29 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import _ from 'lodash';
 import { rawCreateAndUpdate, rawDelete } from '../actions/rawMaterials';
 import RawMaterialsForm from './RawMaterialsForm';
 
-function RawMaterialsItem({ onEdit, editing, rawMaterial, ...props }) {
+function RawMaterialsItem({
+	setEditingItem,
+	editing,
+	rawMaterial,
+	...props
+}) {
 	const { id, description, price, amount, unit } = rawMaterial;
 	const COLLAPSED = id !== editing.id;
 	const NEW = id === '';
 
 	const onClickEdit = () => {
-		onEdit(rawMaterial);
+		setEditingItem(rawMaterial);
 	};
 
 	const onClickNew = () => {
-		onEdit(rawMaterial);
+		setEditingItem(rawMaterial);
 	};
 
 	const onSubmit = (formValues) => {
 		props.rawCreateAndUpdate(formValues);
-		onEdit({});
+		setEditingItem({});
 	};
 
 	const onClickDel = () => {
@@ -27,7 +31,7 @@ function RawMaterialsItem({ onEdit, editing, rawMaterial, ...props }) {
 	};
 
 	const onClickCollapse = () => {
-		onEdit({});
+		setEditingItem({});
 	};
 
 	const renderSumary = () => {
