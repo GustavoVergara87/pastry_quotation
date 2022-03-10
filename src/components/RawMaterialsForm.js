@@ -5,7 +5,7 @@ function RawMaterialsForm(props) {
 	const { id, description, price, amount, unit } = props.rawMaterial;
 
 	const onSubmit = (formValues) => {
-		props.onSubmit(formValues);
+		props.onSubmit({ ...formValues, id: id });
 	};
 
 	const renderInput = ({ input, label, meta }) => {

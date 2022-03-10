@@ -2,9 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import {
-	rawCreate,
+	rawCreateAndUpdate,
 	rawRead,
-	rawUpdate,
 	rawDelete,
 } from '../actions/rawMaterials';
 import RawMaterialsForm from './RawMaterialsForm';
@@ -17,18 +16,17 @@ function RawMaterialsItem({ onEdit, editing, rawMaterial, ...props }) {
 		onEdit(rawMaterial);
 	};
 
-	const onClickDel = () => {
-		console.log('Dispatch action Delete');
+	const onClickNew = () => {
+		onEdit(rawMaterial);
 	};
 
 	const onSubmit = (formValues) => {
-		console.log('Dispatch action Save');
-		props.rawCreate(formValues);
+		props.rawCreateAndUpdate(formValues);
 		onEdit({});
 	};
 
-	const onClickNew = () => {
-		onEdit(rawMaterial);
+	const onClickDel = () => {
+		console.log('Dispatch action Delete');
 	};
 
 	const onClickCollapse = () => {
@@ -93,4 +91,6 @@ const mapStateToProps = (state, ownProps) => {
 	};
 };
 
-export default connect(mapStateToProps, { rawCreate })(RawMaterialsItem);
+export default connect(mapStateToProps, { rawCreateAndUpdate })(
+	RawMaterialsItem
+);
