@@ -1,27 +1,45 @@
 import React from 'react';
+import { Field, Form } from 'react-final-form';
 
 function RawMaterialsForm(props) {
-	const { description, price, amount, unit } = props.rawMaterial;
+	const { id, description, price, amount, unit } = props.rawMaterial;
+
+	const onSubmit = (formValues) => {
+		props.onSubmit(formValues);
+	};
+
+	const renderInput = ({ input, label, meta }) => {
+		return (
+			<div>
+				<label> {label}</label>
+				<input {...input} autoComplete='off' />
+			</div>
+		);
+	};
+
 	return (
 		<div>
-			<form>
-				<div>
-					<label> Descripcion</label>
-					<input defaultValue={description}></input>
-				</div>
-				<div>
-					<label> Price</label>
-					<input defaultValue={price}></input>
-				</div>
-				<div>
-					<label> Amount</label>
-					<input defaultValue={amount}></input>
-				</div>
-				<div>
-					<label> Unit</label>
-					<input defaultValue={unit}></input>
-				</div>
-			</form>
+			<Form
+				onSubmit={onSubmit}
+				initialValues={{ description, price, amount, unit }}
+			>
+				{({ handleSubmit }) => (
+					<form onSubmit={handleSubmit}>
+						<Field
+							name='description'
+							label='Description'
+							component={renderInput}
+						/>
+						<Field name='price' label='Price' component={renderInput} />
+						<Field name='amount' label='Amount' component={renderInput} />
+						<Field name='unit' label='Unit' component={renderInput} />
+
+						<div style={{ display: 'flex', flexFlow: 'row-reverse' }}>
+							<button>Save</button>
+						</div>
+					</form>
+				)}
+			</Form>
 		</div>
 	);
 }

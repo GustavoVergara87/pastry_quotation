@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import _ from 'lodash';
 import {
 	rawCreate,
 	rawRead,
@@ -20,7 +21,7 @@ function RawMaterialsItem({ onEdit, editing, rawMaterial }) {
 		console.log('Dispatch action Delete');
 	};
 
-	const onClickSave = () => {
+	const onSubmit = () => {
 		console.log('Dispatch action Save');
 		onEdit({});
 	};
@@ -49,12 +50,7 @@ function RawMaterialsItem({ onEdit, editing, rawMaterial }) {
 		return (
 			<span style={{ position: 'absolute', right: '0' }}>
 				{id !== '' && <button onClick={onClickDel}>Del</button>}
-				{!COLLAPSED && (
-					<>
-						<button onClick={onClickSave}>Save</button>
-						<button onClick={onClickCollapse}>X</button>
-					</>
-				)}
+				{!COLLAPSED && <button onClick={onClickCollapse}>X</button>}
 				{COLLAPSED && id === '' && <button onClick={onClickNew}>New</button>}
 				{COLLAPSED && id !== '' && <button onClick={onClickEdit}>Edit</button>}
 			</span>
@@ -63,7 +59,9 @@ function RawMaterialsItem({ onEdit, editing, rawMaterial }) {
 
 	const renderForm = () => {
 		if (!COLLAPSED) {
-			return <RawMaterialsForm rawMaterial={rawMaterial} />;
+			return (
+				<RawMaterialsForm onSubmit={onSubmit} rawMaterial={rawMaterial} />
+			);
 		}
 	};
 
