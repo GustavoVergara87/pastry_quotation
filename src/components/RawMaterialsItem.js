@@ -1,11 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
-import {
-	rawCreateAndUpdate,
-	rawRead,
-	rawDelete,
-} from '../actions/rawMaterials';
+import { rawCreateAndUpdate, rawDelete } from '../actions/rawMaterials';
 import RawMaterialsForm from './RawMaterialsForm';
 
 function RawMaterialsItem({ onEdit, editing, rawMaterial, ...props }) {
@@ -26,7 +22,7 @@ function RawMaterialsItem({ onEdit, editing, rawMaterial, ...props }) {
 	};
 
 	const onClickDel = () => {
-		console.log('Dispatch action Delete');
+		props.rawDelete(id);
 	};
 
 	const onClickCollapse = () => {
@@ -91,6 +87,6 @@ const mapStateToProps = (state, ownProps) => {
 	};
 };
 
-export default connect(mapStateToProps, { rawCreateAndUpdate })(
+export default connect(mapStateToProps, { rawCreateAndUpdate, rawDelete })(
 	RawMaterialsItem
 );

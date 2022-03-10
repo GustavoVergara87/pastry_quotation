@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 export default function List({ data, Item }) {
 	const [editingItem, setEditingItem] = useState({});
-	console.log(Object.values(data));
+
 	return (
 		<div>
 			{Object.values(data).map((datum) => {

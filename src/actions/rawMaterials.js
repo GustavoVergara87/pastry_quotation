@@ -1,6 +1,7 @@
 import * as type from './types';
 import Localbase from 'localbase';
 let db = new Localbase('db');
+db.config.debug = false;
 
 export const rawCreateAndUpdate = (formValues) => {
 	//Blank id => new value
@@ -39,8 +40,10 @@ export const rawReadAll = () => async (dispatch) => {
 	// dispatch the action to load all raws into redux
 };
 
-export const rawDelete = (id, formValues) => {
+export const rawDelete = (id) => async (dispatch) => {
 	// delete the raw with an specific id
+	await db.collection('rawMaterials').doc({ id: id }).delete();
+
 	// dispatch the action that modify the raw in redux
-	return { type: type.RAW_DELETE, payload: id };
+	dispatch({ type: type.RAW_DELETE, payload: id });
 };
