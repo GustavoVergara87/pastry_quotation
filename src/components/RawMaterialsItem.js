@@ -7,6 +7,7 @@ import RawMaterialsForm from './RawMaterialsForm';
 function RawMaterialsItem({ onEdit, editing, rawMaterial, ...props }) {
 	const { id, description, price, amount, unit } = rawMaterial;
 	const COLLAPSED = id !== editing.id;
+	const NEW = id === '';
 
 	const onClickEdit = () => {
 		onEdit(rawMaterial);
@@ -30,7 +31,7 @@ function RawMaterialsItem({ onEdit, editing, rawMaterial, ...props }) {
 	};
 
 	const renderSumary = () => {
-		if (id === '') return '-';
+		if (NEW) return '-';
 		return (
 			<span style={{ color: 'grey' }}>
 				<h3
@@ -44,10 +45,10 @@ function RawMaterialsItem({ onEdit, editing, rawMaterial, ...props }) {
 	const renderButtons = () => {
 		return (
 			<span style={{ position: 'absolute', right: '0' }}>
-				{id !== '' && <button onClick={onClickDel}>Del</button>}
+				{NEW && <button onClick={onClickDel}>Del</button>}
 				{!COLLAPSED && <button onClick={onClickCollapse}>X</button>}
-				{COLLAPSED && id === '' && <button onClick={onClickNew}>New</button>}
-				{COLLAPSED && id !== '' && <button onClick={onClickEdit}>Edit</button>}
+				{COLLAPSED && NEW && <button onClick={onClickNew}>New</button>}
+				{COLLAPSED && !NEW && <button onClick={onClickEdit}>Edit</button>}
 			</span>
 		);
 	};
