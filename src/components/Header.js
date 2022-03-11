@@ -6,10 +6,18 @@ export default function Header() {
 		<div>
 			<h1>Pastry Quotation</h1>
 			<ul>
-				<Link to='/product'>Product</Link>
-				<Link to='/recipies'>Recipies</Link>
-				<Link to='/raw'>Raw materials</Link>
-				<Link to='/others'>Others costs</Link>
+				<li>
+					<Link to='/product'>Product</Link>
+				</li>
+				<li>
+					<Link to='/recipies'>Recipies</Link>
+				</li>
+				<li>
+					<Link to='/raw'>Raw materials</Link>
+				</li>
+				<li>
+					<Link to='/others'>Others costs</Link>
+				</li>
 			</ul>
 		</div>
 	);

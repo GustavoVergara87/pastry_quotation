@@ -16,6 +16,7 @@ export default function List({ data, Item }) {
 						/>
 					);
 				})}
+			{/* Add a blank Id (new item) at the end of the list */}
 			{<Item setEditingItem={setEditingItem} editing={editingItem} id={''} />}
 		</div>
 	);

@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import ItemButtons from './ItemButtons';
+import RecipeForm from './RecipeForm';
 
 const RecipiesItem = ({ setEditingItem, editing, recipe, ...props }) => {
 	const { id, name, description, rawMaterials } = recipe;
@@ -40,7 +41,7 @@ const RecipiesItem = ({ setEditingItem, editing, recipe, ...props }) => {
 
 	const renderForm = () => {
 		if (COLLAPSED) return null;
-		return 'Formulario';
+		return <RecipeForm recipe={recipe} />;
 	};
 
 	return (
