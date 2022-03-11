@@ -1,16 +1,14 @@
 import React, { useEffect } from 'react';
 import CollapsibleList from '../CollapsibleList';
 import { connect } from 'react-redux';
-import { rawReadAll } from '../../actions/rawMaterials';
+import { rawFetchAll } from '../../actions/rawMaterials';
 import RawMaterialsItem from '../RawMaterialsItem';
 
-function RawMaterials({ rawReadAll, rawMaterials }) {
+function RawMaterials({ rawFetchAll, rawMaterials }) {
 	useEffect(() => {
-		rawReadAll();
+		rawFetchAll();
 		// eslint-disable-next-line
 	}, []);
-
-	if (Object.values(rawMaterials).length === 0) return null;
 
 	return (
 		<div style={{ height: '50vh', overflowY: 'scroll' }}>
@@ -25,4 +23,4 @@ const mapStateToProps = (state) => {
 	};
 };
 
-export default connect(mapStateToProps, { rawReadAll })(RawMaterials);
+export default connect(mapStateToProps, { rawFetchAll })(RawMaterials);

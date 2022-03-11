@@ -1,34 +1,27 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { rawCreateAndUpdate, rawDelete } from '../actions/rawMaterials';
 import ItemButtons from './ItemButtons';
-import RawMaterialsForm from './RawMaterialsForm';
 
-function RawMaterialsItem({
-	setEditingItem,
-	editing,
-	rawMaterial,
-	...props
-}) {
-	const { id, description, price, amount, unit } = rawMaterial;
+const RecipiesItem = ({ setEditingItem, editing, recipe, ...props }) => {
+	const { id, name, description, rawMaterials } = recipe;
 	const COLLAPSED = id !== editing.id;
 	const NEW = id === '';
 
 	const onClickEdit = () => {
-		setEditingItem(rawMaterial);
+		setEditingItem(recipe);
 	};
 
 	const onClickNew = () => {
-		setEditingItem(rawMaterial);
+		setEditingItem(recipe);
 	};
 
 	const onSubmit = (formValues) => {
-		props.rawCreateAndUpdate(formValues);
+		props.recipeCreateAndUpdate(formValues);
 		setEditingItem({});
 	};
 
 	const onClickDel = () => {
-		props.rawDelete(id);
+		props.recipeDelete(id);
 	};
 
 	const onClickCollapse = () => {
@@ -39,19 +32,15 @@ function RawMaterialsItem({
 		if (NEW) return '-';
 		return (
 			<span style={{ color: 'grey' }}>
-				<h3
-					style={{ display: 'inline', marginRight: '2em' }}
-				>{`${description}`}</h3>
-				{`$${price} / ${amount} ${unit}`}
+				<h3 style={{ display: 'inline', marginRight: '2em' }}>{`${name}`}</h3>
+				{`${description}`}
 			</span>
 		);
 	};
 
 	const renderForm = () => {
 		if (COLLAPSED) return null;
-		return (
-			<RawMaterialsForm onSubmit={onSubmit} rawMaterial={rawMaterial} />
-		);
+		return 'Formulario';
 	};
 
 	return (
@@ -70,24 +59,22 @@ function RawMaterialsItem({
 			<div>{renderForm()}</div>
 		</div>
 	);
-}
+};
 
 const mapStateToProps = (state, ownProps) => {
-	if (ownProps.id === '')
+	if (ownProps.id === '') {
 		return {
-			rawMaterial: {
+			recipe: {
 				id: '',
+				name: '',
 				description: '',
-				price: '',
-				amount: '',
-				unit: '',
+				rawMaterials: [],
 			},
 		};
+	}
 	return {
-		rawMaterial: state.rawMaterials[ownProps.id],
+		recipe: state.recipies[ownProps.id],
 	};
 };
 
-export default connect(mapStateToProps, { rawCreateAndUpdate, rawDelete })(
-	RawMaterialsItem
-);
+export default connect(mapStateToProps)(RecipiesItem);
