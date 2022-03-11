@@ -17,8 +17,9 @@ export const recipeCreateAndUpdate = (formValues) => {
 	}
 };
 
-export const recipeFetch = (id) => {
-	return { type: type.RECIPE_FETCH, payload: 'recipe fetched data' };
+export const recipeFetch = (id) => async (dispatch) => {
+	const response = await db.collection(collection).doc({ id: id }).get();
+	dispatch({ type: type.RECIPE_FETCH, payload: response });
 };
 
 export const recipeFetchAll = () => async (dispatch) => {

@@ -25,10 +25,11 @@ export const rawCreateAndUpdate = (formValues) => {
 	}
 };
 
-export const rawFetch = (id) => {
+export const rawFetch = (id) => async (dispatch) => {
 	// fetch a raw
+	const response = await db.collection(collection).doc({ id: id }).get();
 	// dispatch the action to load that raw into redux
-	return { type: type.RAW_FETCH, payload: 'raw fetched data' };
+	dispatch({ type: type.RAW_FETCH, payload: response });
 };
 
 export const rawFetchAll = () => async (dispatch) => {

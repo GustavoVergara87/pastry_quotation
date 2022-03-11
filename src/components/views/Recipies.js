@@ -2,11 +2,13 @@ import React, { useEffect } from 'react';
 import CollapsibleList from '../CollapsibleList';
 import { connect } from 'react-redux';
 import { recipeFetchAll } from '../../actions/recipies';
+import { rawFetchAll } from '../../actions/rawMaterials';
 import RecipiesItem from '../RecipiesItem';
 
-const Recipies = ({ recipies, recipeFetchAll }) => {
+const Recipies = ({ recipies, ...props }) => {
 	useEffect(() => {
-		recipeFetchAll();
+		props.recipeFetchAll();
+		props.rawFetchAll();
 		// eslint-disable-next-line
 	}, []);
 
@@ -23,4 +25,6 @@ const mapStateToProps = (state) => {
 	};
 };
 
-export default connect(mapStateToProps, { recipeFetchAll })(Recipies);
+export default connect(mapStateToProps, { rawFetchAll, recipeFetchAll })(
+	Recipies
+);
