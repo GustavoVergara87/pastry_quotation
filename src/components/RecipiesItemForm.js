@@ -58,7 +58,6 @@ const renderRawMaterials = ({
 			);
 
 			if (rawMaterialsAvailable.length === 0) return null;
-
 			return (
 				<div key={selectorIndex}>
 					<button type='button' onClick={() => fields.remove(selectorIndex)}>
@@ -73,7 +72,10 @@ const renderRawMaterials = ({
 					<Field
 						name={`${rawMaterialSelector}.amount`}
 						component={renderField}
-						label='Amount'
+						label={`${
+							rawMaterials[parseInt(usedRawMaterials[selectorIndex])] &&
+							rawMaterials[parseInt(usedRawMaterials[selectorIndex])].unit
+						}`}
 						type='number'
 					/>
 				</div>
@@ -142,16 +144,16 @@ const recipeForm = reduxForm({
 const mapStateToProps = (state) => {
 	let usedRawMaterials = [];
 
-	if (state.form.recipeForm) {
-		if (state.form.recipeForm.values) {
-			if (state.form.recipeForm.values.rawMaterials) {
-				usedRawMaterials = state.form.recipeForm.values.rawMaterials.map(
-					(rm) => {
-						return rm.rawMaterialId;
-					}
-				);
+	if (
+		state.form.recipeForm &&
+		state.form.recipeForm.values &&
+		state.form.recipeForm.values.rawMaterials
+	) {
+		usedRawMaterials = state.form.recipeForm.values.rawMaterials.map(
+			(rm) => {
+				return rm.rawMaterialId;
 			}
-		}
+		);
 	}
 
 	return {
