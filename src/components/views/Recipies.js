@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import CollapsibleList from '../CollapsibleList';
+import RecipiesList from '../CollapsibleList';
 import { connect } from 'react-redux';
 import { recipeFetchAll } from '../../actions/recipies';
 import { rawFetchAll } from '../../actions/rawMaterials';
@@ -14,7 +14,7 @@ const Recipies = ({ recipies, ...props }) => {
 
 	return (
 		<div style={{ height: '50vh', overflowY: 'scroll' }}>
-			<CollapsibleList data={recipies} Item={RecipiesItem} />
+			<RecipiesList data={recipies} Item={RecipiesItem} />
 		</div>
 	);
 };

@@ -70,6 +70,7 @@ function RawMaterialsForm(props) {
 					</form>
 				)}
 			</Form>
+			<hr />
 		</div>
 	);
 }

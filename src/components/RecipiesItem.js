@@ -1,10 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import ItemButtons from './ItemButtons';
-import RecipeForm from './RecipeForm';
+import RecipiesItemForm from './RecipiesItemForm';
+import { recipeCreateAndUpdate, recipeDelete } from '../actions/recipies';
 
 const RecipiesItem = ({ setEditingItem, editing, recipe, ...props }) => {
-	const { id, name, description, rawMaterials } = recipe;
+	const { id, name, description } = recipe;
 	const COLLAPSED = id !== editing.id;
 	const NEW = id === '';
 
@@ -17,7 +18,7 @@ const RecipiesItem = ({ setEditingItem, editing, recipe, ...props }) => {
 	};
 
 	const onSubmit = (formValues) => {
-		props.recipeCreateAndUpdate(formValues);
+		props.recipeCreateAndUpdate({ ...formValues, id: id });
 		setEditingItem({});
 	};
 
@@ -41,7 +42,7 @@ const RecipiesItem = ({ setEditingItem, editing, recipe, ...props }) => {
 
 	const renderForm = () => {
 		if (COLLAPSED) return null;
-		return <RecipeForm recipe={recipe} />;
+		return <RecipiesItemForm onSubmit={onSubmit} initialValues={recipe} />;
 	};
 
 	return (
@@ -69,7 +70,7 @@ const mapStateToProps = (state, ownProps) => {
 				id: '',
 				name: '',
 				description: '',
-				rawMaterials: [],
+				rawMaterialsList: [],
 			},
 		};
 	}
@@ -78,4 +79,7 @@ const mapStateToProps = (state, ownProps) => {
 	};
 };
 
-export default connect(mapStateToProps)(RecipiesItem);
+export default connect(mapStateToProps, {
+	recipeCreateAndUpdate,
+	recipeDelete,
+})(RecipiesItem);

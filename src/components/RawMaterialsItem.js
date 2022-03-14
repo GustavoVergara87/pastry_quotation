@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { rawCreateAndUpdate, rawDelete } from '../actions/rawMaterials';
 import ItemButtons from './ItemButtons';
-import RawMaterialsForm from './RawMaterialsForm';
+import RawMaterialsItemForm from './RawMaterialsItemForm';
 
 function RawMaterialsItem({
 	setEditingItem,
@@ -50,7 +50,7 @@ function RawMaterialsItem({
 	const renderForm = () => {
 		if (COLLAPSED) return null;
 		return (
-			<RawMaterialsForm onSubmit={onSubmit} rawMaterial={rawMaterial} />
+			<RawMaterialsItemForm onSubmit={onSubmit} rawMaterial={rawMaterial} />
 		);
 	};
 
