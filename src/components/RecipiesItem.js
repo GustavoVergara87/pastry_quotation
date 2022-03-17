@@ -74,6 +74,7 @@ const mapStateToProps = (state, ownProps) => {
 			},
 		};
 	}
+
 	return {
 		recipe: state.recipies[ownProps.id],
 	};

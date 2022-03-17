@@ -5,7 +5,7 @@ let db = new Localbase('db');
 db.config.debug = false;
 const collection = 'rawMaterials';
 
-export const rawCreateAndUpdate = (formValues) => {
+export const rawCreateAndUpdate = (formValues) => async (dispatch) => {
 	//Blank id => new value
 	//Otherwise => update
 	switch (formValues.id) {
@@ -13,13 +13,16 @@ export const rawCreateAndUpdate = (formValues) => {
 			// create a simple id auto increment
 			formValues.id = Date.now();
 			// post new rawMaterial
-			db.collection(collection).add(formValues);
+			await db.collection(collection).add(formValues);
 			// dispatch the action loading that raw into redux
 			return { type: type.RAW_CREATE, payload: formValues };
 
 		default:
 			// put the changes for the raw with an specific id
-			db.collection(collection).doc({ id: formValues.id }).set(formValues);
+			await db
+				.collection(collection)
+				.doc({ id: formValues.id })
+				.set(formValues);
 			// dispatch the action that modify the raw in redux
 			return { type: type.RAW_UPDATE, payload: formValues };
 	}

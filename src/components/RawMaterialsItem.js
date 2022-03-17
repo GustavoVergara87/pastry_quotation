@@ -38,11 +38,13 @@ function RawMaterialsItem({
 	const renderSumary = () => {
 		if (NEW) return '-';
 		return (
-			<span style={{ color: 'grey' }}>
+			<span>
 				<h3
 					style={{ display: 'inline', marginRight: '2em' }}
 				>{`${description}`}</h3>
-				{`$${price} / ${amount} ${unit}`}
+				<span style={{ color: 'grey' }}>
+					{`$${price} / ${amount} ${unit}`}
+				</span>
 			</span>
 		);
 	};
