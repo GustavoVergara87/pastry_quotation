@@ -6,6 +6,7 @@ import {
 	formValueSelector,
 } from 'redux-form';
 import { connect } from 'react-redux';
+import FileInput from './FileInput';
 
 const renderField = ({ input, type, label }) => (
 	<span>
@@ -124,6 +125,8 @@ const renderRecipiesAndRawMaterials = ({
 	);
 };
 
+const handleChange = () => {};
+
 const ProductsItemForm = (props) => {
 	//this fix an issue of redux-form that sometimes doesn't load the initial values
 	useEffect(() => {
@@ -148,9 +151,10 @@ const ProductsItemForm = (props) => {
 					recipies={props.recipies}
 					usedRecipiesAndRawMaterials={props.usedRecipiesAndRawMaterials}
 				/>
-				<img alt='Product photo' />
-				<button type='button'>Upload photo</button>
-				<div style={{ display: 'flex', flex: 'row-reverse' }}>
+
+				<img alt='Product' src={props.product_image} width='100px' />
+				<Field component={FileInput} name='product_image' type='file' />
+				<div style={{ display: 'flex', flexDirection: 'row-reverse' }}>
 					<button>Submit</button>
 				</div>
 			</form>
@@ -169,16 +173,22 @@ const mapStateToProps = (state) => {
 		state,
 		'recipiesAndRawMaterialsArray'
 	);
+
+	let product_image = selector(state, 'product_image');
+
 	if (usedRecipiesAndRawMaterials) {
 		usedRecipiesAndRawMaterials = usedRecipiesAndRawMaterials
 			.filter((r) => r.recipiesAndRawMaterials)
 			.map((r) => JSON.parse(r.recipiesAndRawMaterials));
 	}
+
 	usedRecipiesAndRawMaterials = usedRecipiesAndRawMaterials || [];
+
 	return {
 		rawMaterials: state.rawMaterials,
 		recipies: state.recipies,
 		usedRecipiesAndRawMaterials: usedRecipiesAndRawMaterials,
+		product_image: product_image,
 	};
 };
 
