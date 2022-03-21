@@ -15,7 +15,7 @@ export const rawCreateAndUpdate = (formValues) => async (dispatch) => {
 			// post new rawMaterial
 			await db.collection(collection).add(formValues);
 			// dispatch the action loading that raw into redux
-			return { type: type.RAW_CREATE, payload: formValues };
+			dispatch({ type: type.RAW_CREATE, payload: formValues });
 
 		default:
 			// put the changes for the raw with an specific id
@@ -24,7 +24,7 @@ export const rawCreateAndUpdate = (formValues) => async (dispatch) => {
 				.doc({ id: formValues.id })
 				.set(formValues);
 			// dispatch the action that modify the raw in redux
-			return { type: type.RAW_UPDATE, payload: formValues };
+			dispatch({ type: type.RAW_UPDATE, payload: formValues });
 	}
 };
 

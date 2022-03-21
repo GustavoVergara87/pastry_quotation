@@ -6,8 +6,20 @@ import thunk from 'redux-thunk';
 import App from './components/App';
 import reducers from './reducers';
 
+// const actionSanitizer = (action) =>
+// 	action.type === '@@redux-form/INITIALIZE' && action.payload
+// 		? { ...action, payload: '<<LONG_BLOB>>' }
+// 		: action;
+
+// const composeEnhancers =
+// 	window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
+// 		actionSanitizer,
+// 		stateSanitizer: (state) =>
+// 			state.product_image ? { ...state, data: '<<LONG_BLOB>>' } : state,
+// 	}) || compose;
 const composeEnhancers =
 	window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
 const store = createStore(
 	reducers,
 	composeEnhancers(applyMiddleware(thunk))

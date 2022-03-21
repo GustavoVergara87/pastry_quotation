@@ -5,7 +5,6 @@ import {
 	otherCostsFetch,
 } from '../../actions/otherCosts';
 import { connect } from 'react-redux';
-import { formValues } from 'redux-form';
 
 const renderInput = ({ input, meta, ...props }) => {
 	return <input {...input} {...props} />;
@@ -13,7 +12,7 @@ const renderInput = ({ input, meta, ...props }) => {
 
 const OtherCosts = ({ handleSubmit, ...props }) => {
 	useEffect(() => {
-		props.otherCostsFetch();
+		props.otherCostsFetch().then();
 	}, []);
 
 	useEffect(() => {
@@ -22,6 +21,7 @@ const OtherCosts = ({ handleSubmit, ...props }) => {
 
 	return (
 		<div>
+			<h2>Other Costs</h2>
 			<form
 				onSubmit={handleSubmit((formValues) => {
 					props.otherCostsUpdate(formValues);
@@ -36,7 +36,7 @@ const OtherCosts = ({ handleSubmit, ...props }) => {
 						min='0'
 						step='.01'
 					/>
-					<li>Fixed Costs</li>
+					<li>Monthly Fixed Costs</li>
 					<Field
 						name='fixedCost'
 						component={renderInput}

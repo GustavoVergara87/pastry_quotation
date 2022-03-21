@@ -1,15 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { rawCreateAndUpdate, rawDelete } from '../actions/rawMaterials';
 import ItemButtons from './ItemButtons';
 import RawMaterialsItemForm from './RawMaterialsItemForm';
+import { rawCreateAndUpdate, rawDelete } from '../actions/rawMaterials';
 
-function RawMaterialsItem({
+const RawMaterialsItem = ({
 	setEditingItem,
 	editing,
 	rawMaterial,
 	...props
-}) {
+}) => {
 	const { id, description, price, amount, unit } = rawMaterial;
 	const COLLAPSED = id !== editing.id;
 	const NEW = id === '';
@@ -23,7 +23,7 @@ function RawMaterialsItem({
 	};
 
 	const onSubmit = (formValues) => {
-		props.rawCreateAndUpdate(formValues);
+		props.rawCreateAndUpdate({ ...formValues, id: id });
 		setEditingItem({});
 	};
 
@@ -52,7 +52,7 @@ function RawMaterialsItem({
 	const renderForm = () => {
 		if (COLLAPSED) return null;
 		return (
-			<RawMaterialsItemForm onSubmit={onSubmit} rawMaterial={rawMaterial} />
+			<RawMaterialsItemForm onSubmit={onSubmit} initialValues={rawMaterial} />
 		);
 	};
 
@@ -72,7 +72,7 @@ function RawMaterialsItem({
 			<div>{renderForm()}</div>
 		</div>
 	);
-}
+};
 
 const mapStateToProps = (state, ownProps) => {
 	if (ownProps.id === '')

@@ -33,9 +33,9 @@ const RecipiesItem = ({ setEditingItem, editing, recipe, ...props }) => {
 	const renderSumary = () => {
 		if (NEW) return '-';
 		return (
-			<span style={{ color: 'grey' }}>
+			<span>
 				<h3 style={{ display: 'inline', marginRight: '2em' }}>{`${name}`}</h3>
-				{`${description}`}
+				<span style={{ color: 'grey' }}>{`${description}`}</span>
 			</span>
 		);
 	};

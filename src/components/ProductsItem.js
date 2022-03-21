@@ -40,7 +40,60 @@ const ProductsItem = ({
 	};
 
 	const price = () => {
-		return '0';
+		if (Object.values(props.rawMaterials).length === 0 || !product) return 0;
+
+		const rawMaterialsPrice = (product.recipiesAndRawMaterialsArray || [])
+			.filter(
+				(r) => JSON.parse(r.recipiesAndRawMaterials).type === 'rawMaterial'
+			)
+			.map((p) => {
+				return {
+					rawMaterialPricePerUnit:
+						parseFloat(
+							props.rawMaterials[JSON.parse(p.recipiesAndRawMaterials).id].price
+						) /
+						parseFloat(
+							props.rawMaterials[JSON.parse(p.recipiesAndRawMaterials).id].amount
+						),
+					productAmount: p.amount,
+				};
+			})
+			.map((rm) => rm.rawMaterialPricePerUnit * rm.productAmount)
+			.reduce((total, rawMatPrice) => {
+				return total + rawMatPrice;
+			}, 0);
+
+		const recipiesPrice = (product.recipiesAndRawMaterialsArray || [])
+			.filter((r) => JSON.parse(r.recipiesAndRawMaterials).type === 'recipe')
+			.map((p) =>
+				props.recipies[JSON.parse(p.recipiesAndRawMaterials).id].rawMaterials
+					.map((rm) => {
+						return {
+							rawMaterialPricePerUnit:
+								parseFloat(props.rawMaterials[parseInt(rm.rawMaterialId)].price) /
+								parseFloat(props.rawMaterials[parseInt(rm.rawMaterialId)].amount),
+							recipieAmount: rm.amount,
+						};
+					})
+					.map((rm) => rm.rawMaterialPricePerUnit * rm.recipieAmount * p.amount)
+					.reduce((total, recipePriceTimesProductAmount) => {
+						return total + recipePriceTimesProductAmount;
+					}, 0)
+			)
+			.reduce((total, recipe) => {
+				return total + recipe;
+			}, 0);
+
+		const hs =
+			parseFloat(product.laborHsToPrepareIt.split(':')[0]) +
+			parseFloat(product.laborHsToPrepareIt.split(':')[1] / 60);
+
+		return Math.round(
+			recipiesPrice +
+				rawMaterialsPrice +
+				props.otherCosts.labor * hs +
+				(props.otherCosts.fixedCost / (8 * 5 * 4)) * hs
+		);
 	};
 
 	const renderSumary = () => {
@@ -87,8 +140,6 @@ const mapStateToProps = (state, ownProps) => {
 				id: '',
 				name: '',
 				description: '',
-				recipies: [],
-				rawMaterials: [],
 				hsToPrepareIt: '',
 			},
 		};
@@ -96,6 +147,9 @@ const mapStateToProps = (state, ownProps) => {
 
 	return {
 		product: state.products[ownProps.id],
+		rawMaterials: state.rawMaterials,
+		recipies: state.recipies,
+		otherCosts: state.otherCosts,
 	};
 };
 

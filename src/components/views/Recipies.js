@@ -13,8 +13,11 @@ const Recipies = ({ recipies, ...props }) => {
 	}, []);
 
 	return (
-		<div style={{ height: '50vh', overflowY: 'scroll' }}>
-			<RecipiesCollapsibleList data={recipies} Item={RecipiesItem} />
+		<div>
+			<h2>Recipies</h2>
+			<div style={{ height: '50vh', overflowY: 'scroll' }}>
+				<RecipiesCollapsibleList data={recipies} Item={RecipiesItem} />
+			</div>
 		</div>
 	);
 };

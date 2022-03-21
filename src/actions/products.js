@@ -3,6 +3,7 @@ import * as type from './types';
 import Localbase from 'localbase';
 
 const db = new Localbase('db');
+db.config.debug = false;
 const collection = 'products';
 
 export const productsFetchAll = () => async (dispatch) => {

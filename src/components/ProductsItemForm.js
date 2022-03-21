@@ -22,6 +22,8 @@ const renderRRselector = ({
 }) => {
 	return (
 		<select {...input}>
+			<option value={null}></option>
+
 			<optgroup label='Recipies'>
 				{Object.values(recipiesAvailable).map((r, index) => {
 					return (
@@ -103,7 +105,6 @@ const renderRecipiesAndRawMaterials = ({
 							rawMaterialsAvailable={rawMaterialsAvailable}
 							recipiesAvailable={recipiesAvailable}
 						/>
-
 						<Field
 							name={`${RRselector}.amount`}
 							component={renderField}
@@ -118,6 +119,9 @@ const renderRecipiesAndRawMaterials = ({
 								'unit'
 							}`}
 						/>
+						<button type='button' onClick={() => fields.remove(selectorIndex)}>
+							-
+						</button>
 					</div>
 				);
 			})}
@@ -125,14 +129,15 @@ const renderRecipiesAndRawMaterials = ({
 	);
 };
 
-const handleChange = () => {};
-
 const ProductsItemForm = (props) => {
 	//this fix an issue of redux-form that sometimes doesn't load the initial values
 	useEffect(() => {
 		props.initialize(props.initialValues);
 	}, []);
-
+	// props.change(
+	// 	`recipiesAndRawMaterialsArray.2.recipiesAndRawMaterials`,
+	// 	'{"type":"rawMaterial","id":1646933607861}'
+	// );
 	return (
 		<div>
 			<form onSubmit={props.handleSubmit(props.onSubmit)}>

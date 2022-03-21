@@ -11,8 +11,11 @@ function RawMaterials({ rawFetchAll, rawMaterials }) {
 	}, []);
 
 	return (
-		<div style={{ height: '50vh', overflowY: 'scroll' }}>
-			<CollapsibleList data={rawMaterials} Item={RawMaterialsItem} />
+		<div>
+			<h2>RawMaterials</h2>
+			<div style={{ height: '50vh', overflowY: 'scroll' }}>
+				<CollapsibleList data={rawMaterials} Item={RawMaterialsItem} />
+			</div>
 		</div>
 	);
 }
