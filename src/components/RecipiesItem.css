@@ -1,0 +1,16 @@
+.item-header {
+	background-color: var(--pastel-purple);
+	margin-top: 3px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.summary h3 {
+	padding: 1rem 2rem;
+	display: inline-block;
+}
+
+.summary span {
+	display: inline-block;
+}

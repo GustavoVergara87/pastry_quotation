@@ -35,7 +35,7 @@ const RawMaterialsItem = ({
 		setEditingItem({});
 	};
 
-	const renderSumary = () => {
+	const renderSummary = () => {
 		if (NEW) return '-';
 		return (
 			<span>
@@ -59,7 +59,7 @@ const RawMaterialsItem = ({
 	return (
 		<div>
 			<div style={{ position: 'relative', padding: 1 }}>
-				{renderSumary()}
+				{renderSummary()}
 				<ItemButtons
 					NEW={NEW}
 					COLLAPSED={COLLAPSED}

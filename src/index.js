@@ -17,6 +17,7 @@ import reducers from './reducers';
 // 		stateSanitizer: (state) =>
 // 			state.product_image ? { ...state, data: '<<LONG_BLOB>>' } : state,
 // 	}) || compose;
+
 const composeEnhancers =
 	window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
@@ -24,6 +25,8 @@ const store = createStore(
 	reducers,
 	composeEnhancers(applyMiddleware(thunk))
 );
+
+// import { composeWithDevTools } from "redux-devtools-extension";
 
 ReactDOM.render(
 	<Provider store={store}>

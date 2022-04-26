@@ -1,0 +1,69 @@
+/* display: 'inline-grid',
+  gridTemplateColumns: '2fr 8fr',
+  width: '100%', */
+
+input {
+	border: none;
+	padding: 0.5rem 1rem;
+}
+.recipies-item-form {
+	display: grid;
+}
+
+.recipies-item-form .container {
+	display: grid;
+	gap: 0.2rem;
+	/* margin-bottom: 0.4rem; */
+	padding: 1rem;
+	background-color: var(--pastel-purple);
+}
+
+.recipies-item-form .inline-field::before {
+	content: '';
+}
+
+.recipies-item-form .inline-field {
+	display: grid;
+	grid-template-columns: 0.5fr 2fr 6.5fr;
+	gap: 0.15rem;
+}
+
+.recipies-item-form .inline-field label {
+	align-self: center;
+}
+
+.save-button {
+	color: var(--pastel-purple-dark);
+	background-color: var(--pastel-purple);
+	width: 7.95rem;
+	margin: 0 0 0 auto;
+}
+
+.render-raw-materials {
+	display: inline-grid;
+	grid-template-columns: 0.5fr 2fr 0.5fr 8fr;
+	gap: 0.2rem;
+	width: 100%;
+}
+
+.render-raw-materials label {
+	text-align: right;
+	align-self: center;
+}
+
+.render-raw-materials button {
+	border: none;
+	color: var(--pastel-purple-dark);
+	background-color: var(--pastel-purple);
+	border: 1px solid rgba(255, 255, 255, 0.5);
+	border-right: none;
+}
+
+.add-new-ingredient-button {
+	padding: 0.5rem 0rem;
+	border: 1px solid rgba(255, 255, 255, 0.5);
+	color: var(--pastel-purple-dark);
+	background-color: var(--pastel-purple);
+	/* 1fr = (100% / 11) */
+	/* width: calc((100% / 11) * 0.5); */
+}

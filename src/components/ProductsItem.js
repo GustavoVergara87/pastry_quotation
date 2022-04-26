@@ -96,7 +96,7 @@ const ProductsItem = ({
 		);
 	};
 
-	const renderSumary = () => {
+	const renderSummary = () => {
 		if (NEW) return '-';
 		return (
 			<span>
@@ -119,7 +119,7 @@ const ProductsItem = ({
 
 	return (
 		<div>
-			{renderSumary()}
+			{renderSummary()}
 			<ItemButtons
 				NEW={NEW}
 				COLLAPSED={COLLAPSED}

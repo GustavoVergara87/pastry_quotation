@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { recipeFetchAll } from '../../actions/recipies';
 import { rawFetchAll } from '../../actions/rawMaterials';
 import RecipiesItem from '../RecipiesItem';
-
+import './Views.css';
 const Recipies = ({ recipies, ...props }) => {
 	useEffect(() => {
 		props.recipeFetchAll();
@@ -13,9 +13,10 @@ const Recipies = ({ recipies, ...props }) => {
 	}, []);
 
 	return (
-		<div>
-			<h2>Recipies</h2>
-			<div style={{ height: '50vh', overflowY: 'scroll' }}>
+		<div className='section-container'>
+			{/* <h2>Recipies</h2> */}
+			{/* <div style={{ height: '50vh', overflowY: 'scroll' }}> */}
+			<div>
 				<RecipiesCollapsibleList data={recipies} Item={RecipiesItem} />
 			</div>
 		</div>

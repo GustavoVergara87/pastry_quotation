@@ -1,0 +1,27 @@
+/* Clearing */
+* {
+	padding: 0;
+	margin: 0;
+	font-family: Lato, 'Helvetica Neue', Arial, Helvetica, sans-serif;
+}
+:root {
+	--pastel-green: #e1f7d5;
+	--pastel-orange: #ffbdbd;
+	--pastel-purple-dark: #7647a2;
+	--pastel-purple: #c9c9ff;
+	--pastel-purple-light: #e3e3ff;
+	--pastel-pink: #f1cbff;
+	--pastel-white: #fcfcff;
+	--pastel-text: #551a8b;
+	--pastel-text-light: #9975b9;
+}
+body {
+	background-color: var(--pastel-purple-light);
+	color: var(--pastel-text);
+}
+.fs-s {
+	font-size: small;
+}
+.fw-br {
+	font-weight: bolder;
+}

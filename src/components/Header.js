@@ -1,22 +1,44 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-
+import { NavLink } from 'react-router-dom';
+import './Header.css';
 export default function Header() {
 	return (
-		<div>
-			<h1>Pastry Quotation</h1>
+		<div className='header'>
+			<div id='title'>
+				<h1>Pastry Quotation</h1>
+			</div>
 			<ul>
 				<li>
-					<Link to='/product'>Product</Link>
+					<NavLink
+						to='/product'
+						className={(isActive) => (isActive ? 'nav-link-current' : '')}
+					>
+						Product
+					</NavLink>
 				</li>
 				<li>
-					<Link to='/recipies'>Recipies</Link>
+					<NavLink
+						to='/recipies'
+						className={(isActive) => (isActive ? 'nav-link-current' : '')}
+					>
+						Recipies
+					</NavLink>
 				</li>
 				<li>
-					<Link to='/raw'>Raw materials</Link>
+					<NavLink
+						to='/raw'
+						className={(isActive) => (isActive ? 'nav-link-current' : '')}
+					>
+						Raw materials
+					</NavLink>
 				</li>
 				<li>
-					<Link to='/others'>Others costs</Link>
+					<NavLink
+						to='/others'
+						className={(isActive) => (isActive ? 'nav-link-current' : '')}
+					>
+						Others costs
+					</NavLink>
 				</li>
 			</ul>
 		</div>

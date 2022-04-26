@@ -3,8 +3,16 @@ import { connect } from 'react-redux';
 import ItemButtons from './ItemButtons';
 import RecipiesItemForm from './RecipiesItemForm';
 import { recipeCreateAndUpdate, recipeDelete } from '../actions/recipies';
+import './RecipiesItem.css';
+import { submit } from 'redux-form';
 
-const RecipiesItem = ({ setEditingItem, editing, recipe, ...props }) => {
+const RecipiesItem = ({
+	setEditingItem,
+	editing,
+	recipe,
+	submit,
+	...props
+}) => {
 	const { id, name, description } = recipe;
 	const COLLAPSED = id !== editing.id;
 	const NEW = id === '';
@@ -15,6 +23,11 @@ const RecipiesItem = ({ setEditingItem, editing, recipe, ...props }) => {
 
 	const onClickNew = () => {
 		setEditingItem(recipe);
+	};
+
+	const onClickSubmit = () => {
+		console.log('first');
+		submit('recipeForm');
 	};
 
 	const onSubmit = (formValues) => {
@@ -30,25 +43,20 @@ const RecipiesItem = ({ setEditingItem, editing, recipe, ...props }) => {
 		setEditingItem({});
 	};
 
-	const renderSumary = () => {
+	const renderSummary = () => {
 		if (NEW) return '-';
 		return (
-			<span>
-				<h3 style={{ display: 'inline', marginRight: '2em' }}>{`${name}`}</h3>
+			<span className='summary'>
+				<h3> {`${name}`}</h3>
 				<span style={{ color: 'grey' }}>{`${description}`}</span>
 			</span>
 		);
 	};
 
-	const renderForm = () => {
-		if (COLLAPSED) return null;
-		return <RecipiesItemForm onSubmit={onSubmit} initialValues={recipe} />;
-	};
-
 	return (
 		<div>
-			<div style={{ position: 'relative', padding: 1 }}>
-				{renderSumary()}
+			<div className='item-header'>
+				{renderSummary()}
 				<ItemButtons
 					NEW={NEW}
 					COLLAPSED={COLLAPSED}
@@ -56,9 +64,14 @@ const RecipiesItem = ({ setEditingItem, editing, recipe, ...props }) => {
 					onClickCollapse={onClickCollapse}
 					onClickNew={onClickNew}
 					onClickEdit={onClickEdit}
+					onClickSubmit={onClickSubmit}
 				/>
 			</div>
-			<div>{renderForm()}</div>
+			<div>
+				{!COLLAPSED && (
+					<RecipiesItemForm onSubmit={onSubmit} initialValues={recipe} />
+				)}
+			</div>
 		</div>
 	);
 };
@@ -83,4 +96,5 @@ const mapStateToProps = (state, ownProps) => {
 export default connect(mapStateToProps, {
 	recipeCreateAndUpdate,
 	recipeDelete,
+	submit,
 })(RecipiesItem);

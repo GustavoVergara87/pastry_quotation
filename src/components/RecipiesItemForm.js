@@ -1,20 +1,17 @@
 import React, { useEffect } from 'react';
 import { Field, FieldArray, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
+import './RecipiesItemForm.css';
 
 const renderField = ({ input, label, type, meta: { touched, error } }) => (
-	<span>
+	<>
 		<label>{label}</label>
 		<input {...input} type={type} autoComplete='off' />
 		{touched && error && <span>{error}</span>}
-	</span>
+	</>
 );
 
-const renderRawMaterialSelector = ({
-	input,
-	meta: { touched, error },
-	rawMaterialsAvailable,
-}) => (
+const renderRawMaterialSelector = ({ input, rawMaterialsAvailable }) => (
 	<select {...input}>
 		{Object.values(rawMaterialsAvailable).map((r) => {
 			return (
@@ -28,87 +25,102 @@ const renderRawMaterialSelector = ({
 
 const renderRawMaterials = ({
 	fields,
-	meta: { error, submitFailed },
 	rawMaterials,
 	usedRawMaterials,
-}) => (
-	<ul>
-		<li>
+}) => {
+	const addNewIngredient = () => {
+		usedRawMaterials.length < Object.values(rawMaterials).length &&
+			fields.push({});
+	};
+
+	return (
+		<>
+			{fields.map((rawMaterialSelector, selectorIndex) => {
+				const rawMaterialsAvailable = Object.values(rawMaterials).filter(
+					(r) => {
+						for (let i = 0; i < usedRawMaterials.length; i++) {
+							if (selectorIndex !== i && usedRawMaterials[i] === r.id.toString())
+								return false;
+						}
+						return true;
+					}
+				);
+
+				if (rawMaterialsAvailable.length === 0) return null;
+				return (
+					<div className='render-raw-materials' key={selectorIndex}>
+						<button type='button' onClick={() => fields.remove(selectorIndex)}>
+							<span className='material-icons fs-s'>close</span>
+						</button>
+
+						<Field
+							name={`${rawMaterialSelector}.rawMaterialId`}
+							component={renderRawMaterialSelector}
+							rawMaterialsAvailable={rawMaterialsAvailable}
+						/>
+
+						<Field
+							name={`${rawMaterialSelector}.amount`}
+							component={renderField}
+							label={`${
+								rawMaterials[parseInt(usedRawMaterials[selectorIndex])] &&
+								rawMaterials[parseInt(usedRawMaterials[selectorIndex])].unit
+							}`}
+							type='number'
+						/>
+					</div>
+				);
+			})}
 			<button
 				type='button'
-				onClick={() => {
-					usedRawMaterials.length < Object.values(rawMaterials).length &&
-						fields.push({});
-				}}
+				onClick={addNewIngredient}
+				className='add-new-ingredient-button'
 			>
-				+
+				<span className='material-icons fs-s fw-br'>add</span>
+				add new ingredient
 			</button>
-			{submitFailed && error && <span>{error}</span>}
-		</li>
+		</>
+	);
+};
 
-		{fields.map((rawMaterialSelector, selectorIndex) => {
-			const rawMaterialsAvailable = Object.values(rawMaterials).filter(
-				(r) => {
-					for (let i = 0; i < usedRawMaterials.length; i++) {
-						if (selectorIndex !== i && usedRawMaterials[i] === r.id.toString())
-							return false;
-					}
-					return true;
-				}
-			);
-
-			if (rawMaterialsAvailable.length === 0) return null;
-			return (
-				<div key={selectorIndex}>
-					<button type='button' onClick={() => fields.remove(selectorIndex)}>
-						-
-					</button>
-
-					<Field
-						name={`${rawMaterialSelector}.rawMaterialId`}
-						component={renderRawMaterialSelector}
-						rawMaterialsAvailable={rawMaterialsAvailable}
-					/>
-					<Field
-						name={`${rawMaterialSelector}.amount`}
-						component={renderField}
-						label={`${
-							rawMaterials[parseInt(usedRawMaterials[selectorIndex])] &&
-							rawMaterials[parseInt(usedRawMaterials[selectorIndex])].unit
-						}`}
-						type='number'
-					/>
-				</div>
-			);
-		})}
-	</ul>
-);
-
-const RecipiesItemForm = (props) => {
+const RecipiesItemForm = ({
+	initialize,
+	initialValues,
+	handleSubmit,
+	onSubmit,
+	rawMaterials,
+	usedRawMaterials,
+}) => {
 	//this fix an issue of redux-form that sometimes doesn't load the initial values
 	useEffect(() => {
-		props.initialize(props.initialValues);
+		initialize(initialValues);
 	}, []);
 
 	return (
-		<form onSubmit={props.handleSubmit(props.onSubmit)}>
-			<div>
-				<Field name='name' component={renderField} label='Recipe Name' />
+		<form className='recipies-item-form' onSubmit={handleSubmit(onSubmit)}>
+			<div className='container'>
+				<div className='inline-field'>
+					<Field name='name' component={renderField} label='Recipe Name' />
+				</div>
+				<div className='inline-field'>
+					<Field
+						name='description'
+						component={renderField}
+						label='Description'
+					/>
+				</div>
+
+				<FieldArray
+					name='rawMaterials'
+					rawMaterials={rawMaterials}
+					usedRawMaterials={usedRawMaterials}
+					component={renderRawMaterials}
+				/>
 			</div>
-			<Field name='description' component={renderField} label='Description' />
-			<FieldArray
-				name='rawMaterials'
-				rawMaterials={props.rawMaterials}
-				usedRawMaterials={props.usedRawMaterials}
-				component={renderRawMaterials}
-			/>
-			<div style={{ display: 'flex', flexDirection: 'row-reverse' }}>
-				<button type='submit'>Submit</button>
-			</div>
-			<hr />
 		</form>
 	);
 };
+
 //-------------------------------------------------------------------------
 
 const validate = ({ name, description }) => {
@@ -136,23 +148,15 @@ const validate = ({ name, description }) => {
 	return errors;
 };
 
-const recipeForm = reduxForm({
-	form: 'recipeForm',
-	validate: validate,
-})(RecipiesItemForm);
-
 const mapStateToProps = (state) => {
 	let usedRawMaterials = [];
-
 	if (
 		state.form.recipeForm &&
 		state.form.recipeForm.values &&
 		state.form.recipeForm.values.rawMaterials
 	) {
 		usedRawMaterials = state.form.recipeForm.values.rawMaterials.map(
-			(rm) => {
-				return rm.rawMaterialId;
-			}
+			(rm) => rm.rawMaterialId
 		);
 	}
 
@@ -161,5 +165,10 @@ const mapStateToProps = (state) => {
 		usedRawMaterials: usedRawMaterials,
 	};
 };
+
+const recipeForm = reduxForm({
+	form: 'recipeForm',
+	validate: validate,
+})(RecipiesItemForm);
 
 export default connect(mapStateToProps)(recipeForm);

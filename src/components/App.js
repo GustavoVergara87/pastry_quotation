@@ -5,8 +5,9 @@ import Products from './views/Products';
 import RawMaterials from './views/RawMaterials';
 import Recipies from './views/Recipies';
 import OtherCosts from './views/OtherCosts';
-
 import Header from './Header';
+import './App.css';
+
 export default function App() {
 	return (
 		<div>
